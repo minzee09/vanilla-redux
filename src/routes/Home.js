@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { actionCreaters } from "../store";
 import ToDo from "../components/ToDo";
 
-const Home = ({ toDos, addToDo }) => {
+const Home = ({ toDos, addToDo, setToDos }) => {
   const [text, setText] = useState("");
+
+  useEffect(() => {
+    const storedToDos = JSON.parse(localStorage.getItem("toDos"));
+    if (storedToDos) {
+      setToDos(storedToDos);
+    }
+  }, [setToDos]);
+
   function onChange(e) {
     setText(e.target.value);
   }
+
   function onSubmit(e) {
     e.preventDefault();
     addToDo(text);
@@ -34,7 +43,10 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return { addToDo: (text) => dispatch(actionCreaters.addToDo(text)) };
+  return {
+    addToDo: (text) => dispatch(actionCreaters.addToDo(text)),
+    setToDos: (toDos) => dispatch(actionCreaters.setToDos(toDos)),
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
