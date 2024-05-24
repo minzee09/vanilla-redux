@@ -1,32 +1,24 @@
 import { createStore } from "redux";
 import { createAction } from "@reduxjs/toolkit";
 
-const ADD = "ADD";
-const DELETE = "DELETE";
+/*
+console.log("addToDo") : function
+console.log("addToDo.type") : text
+console.log("addToDo()") : object
+*/
 
-const addToDo = (text) => {
-  return {
-    type: ADD,
-    text,
-  };
-};
-
-const deleteToDo = (id) => {
-  return {
-    type: DELETE,
-    id,
-  };
-};
+const addToDo = createAction("ADD");
+const deleteToDo = createAction("DELETE");
 
 const reducer = (state = [], action) => {
   switch (action.type) {
-    case ADD:
-      const newToDo = { text: action.text, id: Date.now() };
+    case addToDo.type:
+      const newToDo = { text: action.payload, id: Date.now() };
       const updatedState = [...state, newToDo];
       localStorage.setItem("toDos", JSON.stringify(updatedState));
       return updatedState;
-    case DELETE:
-      return state.filter((toDo) => toDo.id !== action.id);
+    case deleteToDo.type:
+      return state.filter((toDo) => toDo.id !== action.payload);
     default:
       return state;
   }
