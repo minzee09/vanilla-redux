@@ -1,8 +1,8 @@
 import { createStore } from "redux";
+import { createAction } from "@reduxjs/toolkit";
 
 const ADD = "ADD";
 const DELETE = "DELETE";
-const SET_TODOS = "SET_TODOS";
 
 const addToDo = (text) => {
   return {
@@ -17,13 +17,6 @@ const deleteToDo = (id) => {
     id,
   };
 };
-//localStorage에서 로드된 투두 리스트를 상태로 설정
-const setToDos = (toDos) => {
-  return {
-    type: SET_TODOS,
-    toDos,
-  };
-};
 
 const reducer = (state = [], action) => {
   switch (action.type) {
@@ -34,8 +27,6 @@ const reducer = (state = [], action) => {
       return updatedState;
     case DELETE:
       return state.filter((toDo) => toDo.id !== action.id);
-    case SET_TODOS:
-      return action.toDos;
     default:
       return state;
   }
@@ -46,7 +37,6 @@ const store = createStore(reducer);
 export const actionCreaters = {
   addToDo,
   deleteToDo,
-  setToDos,
 };
 
 export default store;
