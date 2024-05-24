@@ -1,5 +1,4 @@
-import { createStore } from "redux";
-import { createAction } from "@reduxjs/toolkit";
+import { configureStore, createAction, createReducer } from "@reduxjs/toolkit";
 
 /*
 console.log("addToDo") : function
@@ -31,12 +30,10 @@ const reducer = createReducer([], (builder) => {
     })
     .addCase(deleteToDo, (state, action) => {
       return state.filter((toDo) => toDo.id !== action.payload);
-    default:
-      return state;
-  }
-};
+    });
+});
 
-const store = createStore(reducer);
+const store = configureStore({ reducer });
 
 export const actionCreaters = {
   addToDo,
